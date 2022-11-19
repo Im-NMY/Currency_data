@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.currency_data.base.BaseViewModel
 import com.example.currency_data.base.Event
+import com.example.currency_data.mainscreen.data.network.exchangerateslist.model.RatesRemoteModel
 import com.example.currency_data.mainscreen.domain.CurrencyListModel
 import com.example.currency_data.mainscreen.domain.Interactor
 import kotlinx.coroutines.launch
@@ -15,7 +16,10 @@ class MainViewModel(private val interactor: Interactor) : BaseViewModel<ViewStat
     }
 
     override fun initialViewState() = ViewState(
-        currency = ""
+        currency = emptyList(),
+        rates = RatesRemoteModel(
+            rates = emptyList()
+        )
     )
 
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
@@ -33,27 +37,26 @@ class MainViewModel(private val interactor: Interactor) : BaseViewModel<ViewStat
                 return null
             }
             is DataEvent.OnLoadCurrencySucceed -> {
-                Log.e("qwe", "${event.currency}")
                 previousState.copy(
-                    currency = event.currency.toString()
+                    currency = event.currency
                 )
                 viewModelScope.launch {
-                    interactor.getRatesList().fold(
+                    interactor.getRatesList(event.currency.joinToString(",")).fold(
                         onError = {
                             Log.e("Error", it.localizedMessage)
                         },
                         onSuccess = {
-//                            processDataEvent(DataEvent.OnLoadCurrencySucceed(it))
+                            processDataEvent(DataEvent.OnLoadRatesSucceed(it))
                         })
 
                 }
                 return null
             }
-//            is DataEvent.OnLoadCurrencyListSucceed -> {
-//                return previousState.copy(
-//                    currencyList = event.itemList
-//                )
-//            }
+            is DataEvent.OnLoadRatesSucceed -> {
+                return previousState.copy(
+                    rates = event.rates
+                )
+            }
             else -> return null
         }
     }

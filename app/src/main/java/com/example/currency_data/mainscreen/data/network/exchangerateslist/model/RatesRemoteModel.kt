@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class RatesRemoteModel(
     @SerializedName("data")
-    val rates: RateRemoteModel
+    val rates: List<RateRemoteModel>
 )

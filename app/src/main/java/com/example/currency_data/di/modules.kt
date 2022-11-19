@@ -13,7 +13,7 @@ const val APP_DATABASE = "APP_DATABASE"
 
 val networkModule = module {
 
-    val single = single<OkHttpClient> {
+    single<OkHttpClient> {
         OkHttpClient.Builder().addInterceptor(
             HttpLoggingInterceptor { massage ->
                 Log.d("OkHttp", massage)

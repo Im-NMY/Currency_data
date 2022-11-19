@@ -8,5 +8,5 @@ class Interactor(private val currencyRepository: CurrencyRepository, private val
 
     suspend fun getCurrencyList() = attempt { currencyRepository.getCurrencyList() }
 
-    suspend fun getRatesList() = attempt { ratesRepository.getRates() }
+    suspend fun getRatesList(pairs: String) = attempt { ratesRepository.getRates(pairs = pairs) }
 }

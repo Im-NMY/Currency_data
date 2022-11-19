@@ -1,5 +1,9 @@
 package com.example.currency_data.mainscreen.di
 
+import com.example.currency_data.mainscreen.data.network.exchangerateslist.CurrencyListApi
+import com.example.currency_data.mainscreen.data.network.exchangerateslist.ExchangeRatesRemoteSource
+import com.example.currency_data.mainscreen.data.network.exchangerateslist.RatesRepository
+import com.example.currency_data.mainscreen.data.network.exchangerateslist.RatesRepositoryImpl
 import com.example.currency_data.mainscreen.data.network.rateslist.CurrencyApi
 import com.example.currency_data.mainscreen.data.network.rateslist.CurrencyRemoteSource
 import com.example.currency_data.mainscreen.data.network.rateslist.CurrencyRepository
@@ -29,17 +33,27 @@ val mainScreenModule = module {
     single<CurrencyApi> {
         get<Retrofit>().create(CurrencyApi::class.java)
     }
+    single<CurrencyListApi> {
+        get<Retrofit>().create(CurrencyListApi::class.java)
+    }
 
     single<CurrencyRemoteSource> {
         CurrencyRemoteSource(api = get())
     }
 
+    single<ExchangeRatesRemoteSource> {
+        ExchangeRatesRemoteSource(api = get())
+    }
+
     single<CurrencyRepository> {
         CurrencyRepositoryImpl(source = get())
     }
+    single<RatesRepository> {
+        RatesRepositoryImpl(ratesSource = get())
+    }
 
     single<Interactor> {
-        Interactor(repository = get())
+        Interactor(currencyRepository = get(), ratesRepository = get())
     }
     viewModel {
         MainViewModel(interactor = get())

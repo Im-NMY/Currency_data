@@ -2,7 +2,7 @@ package com.example.currency_data.base
 
 import androidx.recyclerview.widget.DiffUtil
 
-open class BaseDiffUtilItemCallback: DiffUtil.ItemCallback<Item>() {
+open class BaseDiffUtilItemCallback : DiffUtil.ItemCallback<Item>() {
     override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
         oldItem.itemId == newItem.itemId
 

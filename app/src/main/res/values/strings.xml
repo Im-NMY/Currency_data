@@ -2,4 +2,9 @@
     <string name="app_name">Currency_data</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="a_z">по алфавиту от A до Z</string>
+    <string name="z_a">по алфавиту от Z до A</string>
+    <string name="up">по возрастанию значения</string>
+    <string name="down">по убыванию значения</string>
+    <string name="sort">Сортировать список:</string>
 </resources>
